@@ -1,0 +1,7 @@
+﻿zuhören;слушать;v;Verb
+hören;слышать;v;Verb
+atmen (uv);дышать;v;Verb
+sprechen;говорить;v;Verb
+machen;делать;v;Verb
+spielen;играть;v;Verb
+arbeiten;работать;v;Verb
