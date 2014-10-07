@@ -1,0 +1,1 @@
+set python="K:\ppython\App\python.exe"
