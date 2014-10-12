@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from gramgetter import GrammGetter as gget
 
 from vocabel import Vocabel
 from time import strftime
@@ -113,10 +114,34 @@ class Slawar:
 
     def show(self):
         print("show all entries")
+        ShowRus=True
+
+        #check if cyrillic can be displayed (eg. in MS DOS not, in PYthon console it can)
+        try:
+            print("Check: "+v.ru)
+        except:
+            print("cyrillic symbols cannot be displayed - only german vocs are shown")
+            ShowRus=False
 
         for i,v in enumerate(self.vocs):
-            print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+","+v.ktx)
-            #print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+",")
+            if ShowRus==False:
+                print("Nr."+str(i)+":"+v.de+","+v.cat+","+v.ktx) # ohne russ.buchst
+            else:
+                print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+","+v.ktx)
+
+
+
+    def fillEmtpyGram(self):
+        cnt=0
+        for i,v in enumerate(self.vocs):
+            if v.gmr==None:
+                cnt+=1
+                print("Filling:")
+                print(v.ru)
+                v.gmr= gget.getWikiGrammar(v.ru)
+        if cnt==0:
+            print("All entries already filled - nothing added")
+
 
     def delete(self,de):
         print("deleting entry: "+de)
@@ -147,6 +172,10 @@ class Slawar:
         return False #no archiv existing
 
 
+    def isEmpty(self):
+        if len(self.vocs)==0:
+            return True
+        return False
 
 ########### MP3 related ###########
     def getMp3(self):
