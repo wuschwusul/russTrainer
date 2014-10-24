@@ -45,7 +45,7 @@ class Slawar:
             print("ERROR - No Database loaded, saving aborted -XXX")
             return False
 
-        offset=2
+        offset=2 # row-offset in excel
         for i,rw in enumerate(self.vocs):
             self.ws.cell(row=i+offset,column=1).value=i
             self.ws.cell(row=i+offset,column=2).value=self.vocs[i].ru
@@ -75,7 +75,7 @@ class Slawar:
 
         if isArch==True:     #then load latest archiv database
             print("...from recent Archiv..."),
-            fileToLoad=self.getLastArchiv()
+            fileToLoad=self.getLastArchivFileName()
 
             if fileToLoad==False:
                 print("FILE OPEN ERROR - no file found...XXX")
@@ -107,9 +107,6 @@ class Slawar:
         self.wb= openpyxl.load_workbook(filename=f,data_only=True)
         self.ws=self.wb.get_sheet_by_name(s)
 
-    def add(self,de,ru,ct="",gm="",kx=""):  #("word","слова","n")
-        #print("adding word, DEACTIVATED")
-        self.vocs.append(Vocabel(de,ru,cat=ct,ktx=kx,gmr=gm))
 
 
     def show(self):
@@ -132,33 +129,30 @@ class Slawar:
 
 
     def fillEmtpyGram(self):
+        print(">>START filling Empty Grammar Cells...")
         cnt=0
+        print(">>COUNTING...")              # count the empty cells
         for i,v in enumerate(self.vocs):
             if v.gmr==None:
                 cnt+=1
-                print("Filling:")
-                print(v.ru)
-                v.gmr= gget.getWikiGrammar(v.ru)
         if cnt==0:
             print("All entries already filled - nothing added")
+            return False
+
+        # for every empty, get them
+        for i,v in enumerate(self.vocs):
+            if v.gmr==None:
+                v.gmr= gget.getWikiGrammar(v.ru,i,cnt)
 
 
-    def delete(self,de):
-        print("deleting entry: "+de)
-        print("not implemented yet")
 
 
 
 
 
-    def getLastArchiv(self): #!! returns last archiv filename
-##        arpath=join(self.db_dir,"archiv")   #archiv directory
-##        af=listdir(arpath)[-1]              #bottom file = latest
-##        print("used archiv file: "+af)
-##
-##        return join(arpath,af)
 
-##      #komplex solution
+
+    def getLastArchivFileName(self): #!! returns last archiv filename
         arpath=join(self.db_dir,"archiv")   #archiv directory
         flz=listdir(arpath)                 #get all filez in archiv
 
@@ -176,6 +170,17 @@ class Slawar:
         if len(self.vocs)==0:
             return True
         return False
+
+
+    def add(self,de,ru,ct="",gm="",kx=""):  #("word","слова","n")
+        #print("adding word, DEACTIVATED")
+        self.vocs.append(Vocabel(de,ru,cat=ct,ktx=kx,gmr=gm))
+
+    def delete(self,de):
+        print("deleting entry: "+de)
+        print("not implemented yet")
+
+
 
 ########### MP3 related ###########
     def getMp3(self):

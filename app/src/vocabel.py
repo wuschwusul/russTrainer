@@ -19,10 +19,10 @@ class Vocabel:
         self.ktx=ktx
         self.gmr=gmr
 
-        if cat==None:
-            self.guessCat()
-        else:
-            self.cat=cat
+##        if cat==None:
+##            self.guessCat()
+##        else:
+##            self.cat=cat
 
 
 
