@@ -1,1 +1,1 @@
-set python="K:\ppython\App\python.exe"
+set python="D:\ppython\App\python.exe"

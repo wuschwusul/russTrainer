@@ -96,9 +96,10 @@ class Slawar:
                 gm=rowfill[4].value  # col=4>gmr
                 kx=rowfill[7].value  # col=7->kontext
 
-                #fill class variable
-                self.vocmax+=1
-                self.add(de,ru,ct,gm,kx)
+                #fill class variable - check if empty
+                if nr!=None and ru!=None and de!=None:
+                    self.vocmax+=1
+                    self.add(de,ru,ct,gm,kx)
 
         print("OK")
 
@@ -111,20 +112,13 @@ class Slawar:
 
     def show(self):
         print("show all entries")
-        ShowRus=True
-
-        #check if cyrillic can be displayed (eg. in MS DOS not, in PYthon console it can)
-        try:
-            print("Check: "+v.ru)
-        except:
-            print("cyrillic symbols cannot be displayed - only german vocs are shown")
-            ShowRus=False
 
         for i,v in enumerate(self.vocs):
-            if ShowRus==False:
-                print("Nr."+str(i)+":"+v.de+","+v.cat+","+v.ktx) # ohne russ.buchst
-            else:
+            try:
                 print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+","+v.ktx)
+            except:
+                print("Nr."+str(i)+":"+v.de+","+v.cat+","+v.ktx) # ohne russ.buchst
+
 
 
 
@@ -142,7 +136,9 @@ class Slawar:
         # for every empty, get them
         for i,v in enumerate(self.vocs):
             if v.gmr==None:
-                v.gmr= gget.getWikiGrammar(v.ru,i,cnt)
+                v.gmr= gget.getWikiGrammar(v.ru,i,cnt,v.de)
+
+        print(">>FINISH Downloading Grammar")
 
 
 

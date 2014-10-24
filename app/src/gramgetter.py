@@ -11,10 +11,15 @@ class GrammGetter:
 
 
     @staticmethod
-    def getWikiGrammar(ruvoc,act,cnt):
+    def getWikiGrammar(ruvoc,act,cnt,devoc):
         #ruvoc is russian voc, act = number of actual voc, cnt = total number of vocs to fill
         print("Voc("+str(act)+"/"+str(cnt)+" Attempt download info of "),
-        print ruvoc
+
+        try:
+            print ruvoc
+        except:
+            print devoc
+
         htxt= GrammGetter.getHtmlText(ruvoc)
         if htxt==False:
             return "--Error at wiki ---"
@@ -37,8 +42,10 @@ class GrammGetter:
             ##cut_cells=GrammGetter.getWikiVerb(ruvoc,cells)
 ##        if cat == "o" :
 ##            cut_cells=GrammGetter.getWikiOther(ruvoc,cells)
-
-        cut_cells=GrammGetter.getWikiCell(cells,cl)
+        try:
+            cut_cells=GrammGetter.getWikiCell(cells,cl)
+        except:
+            cut_cells="--Error in extracting cell--"
 
         return cut_cells
 
