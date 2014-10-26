@@ -22,23 +22,23 @@ class GrammGetter:
 
         htxt= GrammGetter.getHtmlText(ruvoc)
         if htxt==False:
-            return "--Error at wiki ---"
+            return "--NA-NoWiki ---","o"
         cat=  GrammGetter.getCategory(htxt)
         if cat=="o":
-            return "--Other -do manually--"
+            return "--NA-Other----","o"
 
         tabletext=GrammGetter.getTableText(htxt,cat)
         cells=GrammGetter.getStringPart(tabletext,st="<td",en="/td>")
 
 
-        if cat == "a" :
+        if cat == "a" :  #adjectives -  mask,feminin,object,plural
             cl=[1,2,3,4]
             ##cut_cells=GrammGetter.getWikiAdjectiv(ruvoc,cells)
-        if cat == "n" :
-            cl=[1,4,7,10,13,16]
+        if cat == "n" : # nomes - singular , plural !!!! (-1) is separator signal
+            cl=[1,4,7,10,13,16,-1,2,5,8,11,14,17]
             ##cut_cells=GrammGetter.getWikiNomen(ruvoc,cells)
-        if cat == "v" :
-            cl=[1,5,9,13,17,21]
+        if cat == "v" : # verbes - 6 cases + past + imperativ (sing,plur) !!!! (-1) is separator signal
+            cl=[1,5,9,13,17,21,-1,2,7,19]
             ##cut_cells=GrammGetter.getWikiVerb(ruvoc,cells)
 ##        if cat == "o" :
 ##            cut_cells=GrammGetter.getWikiOther(ruvoc,cells)
@@ -47,7 +47,7 @@ class GrammGetter:
         except:
             cut_cells="--Error in extracting cell--"
 
-        return cut_cells
+        return cut_cells,cat
 
 #############sUBFUNKTIONEN++++++++++++++++++++++++++++++++++++++++++++
 
@@ -136,12 +136,19 @@ class GrammGetter:
 
         #METHODE ISI CHEEZY
         for nr in cl:
-            if "<br />" in cells[nr]:  #check for <br> -> replace by или
-                cells[nr]=cells[nr].replace("<br />"," или ")
-            gr=gr+((cells[nr].split(">")[1])[:-1])+","
+            if nr==-1:   # -1 is signalfor separator
+                gr=gr+" // "
+            else:
+                if "<br />" in cells[nr]:                   #check for <br> -> replace by или
+                    cells[nr]=cells[nr].replace("<br />"," или ")
+                gr=gr+((cells[nr].split(">")[1])[:-1])+" , "  #filters words betwen ">  <" which are the targets
 
-        if "\n" in gr:
+        if "\n" in gr:                                  #delete \n
             gr=gr.replace("\n"," ")
+        if "&#160" in gr:
+            gr=gr.replace("&#160","-")                  #if no single form exists ->single column is filled with --
+        if "—,&#160" in gr:
+            gr=gr.replace("—,&#160","-")
 
         return gr
 

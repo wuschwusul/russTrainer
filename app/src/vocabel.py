@@ -16,6 +16,7 @@ class Vocabel:
     def __init__(self,de,ru,cat=None,ktx=None,gmr=None):
         self.de=de
         self.ru=ru
+        self.cat=cat
         self.ktx=ktx
         self.gmr=gmr
 

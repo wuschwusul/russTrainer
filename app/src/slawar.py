@@ -115,14 +115,14 @@ class Slawar:
 
         for i,v in enumerate(self.vocs):
             try:
-                print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+","+v.ktx)
+                print("Nr."+str(i)+":"+v.de+","+v.ru+","+v.cat+","+v.gmr+","+v.ktx)
             except:
                 print("Nr."+str(i)+":"+v.de+","+v.cat+","+v.ktx) # ohne russ.buchst
 
 
 
 
-    def fillEmtpyGram(self):
+    def fillEmtpyGram(self):   #searches and returns   grammar& category of all empty entries from wiktionary
         print(">>START filling Empty Grammar Cells...")
         cnt=0
         print(">>COUNTING...")              # count the empty cells
@@ -133,10 +133,11 @@ class Slawar:
             print("All entries already filled - nothing added")
             return False
 
-        # for every empty, get them
+        # for every empty, get the grammar texts
         for i,v in enumerate(self.vocs):
             if v.gmr==None:
-                v.gmr= gget.getWikiGrammar(v.ru,i,cnt,v.de)
+                v.gmr,v.cat= gget.getWikiGrammar(v.ru,i,cnt,v.de)
+
 
         print(">>FINISH Downloading Grammar")
 

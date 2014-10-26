@@ -54,9 +54,10 @@ def main():
             continue
 
         if cmd =="gm": #get gramar of missing
+            print("bin da")
             if sl.isEmpty():
                 print("WARNING - No data loaded")
-            continue
+                continue
 
             sl.fillEmtpyGram()
 
@@ -64,7 +65,15 @@ def main():
 
 
         if cmd=="t": # TEST
-            print("Test empty")
+            print("Test ")
+            print(sl.vocs[138].ru)
+            print(sl.vocs[138].gmr)
+            wtf= (sl.vocs[138].gmr).split(";")[0]
+            print wtf
+
+            if wtf=="&#160":
+                print("yeah")
+
             continue
 
         print("unknown command")
