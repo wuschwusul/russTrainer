@@ -1,2 +1,0 @@
-class Settings:
-    s=None
