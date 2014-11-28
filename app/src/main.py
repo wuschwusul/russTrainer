@@ -54,12 +54,15 @@ def main():
             continue
 
         if cmd =="gm": #get gramar of missing
-            print("bin da")
+
             if sl.isEmpty():
-                print("WARNING - No data loaded")
+                print("WARNING - No data loaded - type 'l' to load file ")
                 continue
 
             sl.fillEmtpyGram()
+
+            print("SAVING..."),
+            sl.save()
 
             continue
 
